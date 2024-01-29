@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import EditorList from '../../components/EditorList/EditorList';
+import MovieList from '../../components/MovieList/MovieList';
 import { fetchTrending } from '../../services/MovieApi';
 import Loader from 'components/Loader/Loader';
 
 const Home = () => {
-  const [films, setFilms] = useState([]);
+  const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -13,7 +13,7 @@ const Home = () => {
 
       fetchTrending()
         .then(trendingFilms => {
-          setFilms(trendingFilms);
+          setMovies(trendingFilms);
         })
         .catch(error => {
           console.log(error);
@@ -29,7 +29,7 @@ const Home = () => {
   return (
     <main>
       <h1>Trending today</h1>
-      <EditorList films={films} />
+      <MovieList movies={movies} />
 
       {loading && <Loader />}
     </main>

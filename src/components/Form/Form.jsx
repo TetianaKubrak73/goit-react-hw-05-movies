@@ -1,14 +1,16 @@
 import { useState } from 'react';
-const Form = ({ searchMovies }) => {
+
+const Form = ({ setSearchParams }) => {
   const [query, setQuery] = useState('');
 
-  const handleInputChange = event => {
-    setQuery(event.target.value);
+  const handleSubmit = e => {
+    e.preventDefault();
+
+    setSearchParams({ query });
   };
 
-  const handleSubmit = event => {
-    event.preventDefault();
-    searchMovies(query.toLowerCase());
+  const handleSearchParams = ({ target: { value } }) => {
+    setQuery(value);
   };
 
   return (
@@ -18,7 +20,7 @@ const Form = ({ searchMovies }) => {
         name="query"
         autoFocus
         value={query}
-        onChange={handleInputChange}
+        onChange={handleSearchParams}
       />
       <button type="submit">Search</button>
     </form>
