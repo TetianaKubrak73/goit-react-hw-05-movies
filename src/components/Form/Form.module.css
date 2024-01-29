@@ -1,0 +1,35 @@
+.inputForm {
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 27px;
+
+  padding: 15px 16px;
+
+  color: black;
+
+  background: #ed8ad903;
+  border-radius: 10px;
+  box-shadow: 10px 5px 5px black;
+}
+.inputForm:hover,
+:focus {
+  background-color: rgba(112, 155, 216, 0.375);
+}
+
+.buttonForm {
+  margin-left: 10px;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 27px;
+
+  padding: 15px 16px;
+  color: black;
+
+  background: #ed8ad903;
+  border-radius: 10px;
+  box-shadow: 10px 5px 5px black;
+}
+.buttonForm:hover,
+:focus {
+  background-color: rgba(112, 155, 216, 0.375);
+}

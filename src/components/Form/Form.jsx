@@ -1,5 +1,5 @@
 import { useState } from 'react';
-
+import style from './Form.module.css';
 const Form = ({ setSearchParams }) => {
   const [query, setQuery] = useState('');
 
@@ -16,13 +16,16 @@ const Form = ({ setSearchParams }) => {
   return (
     <form onSubmit={handleSubmit}>
       <input
+        className={style.inputForm}
         type="text"
         name="query"
         autoFocus
         value={query}
         onChange={handleSearchParams}
       />
-      <button type="submit">Search</button>
+      <button className={style.buttonForm} type="submit">
+        Search
+      </button>
     </form>
   );
 };

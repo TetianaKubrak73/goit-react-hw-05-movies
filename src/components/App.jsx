@@ -1,18 +1,18 @@
+import { lazy } from 'react';
 import { Routes, Route } from 'react-router-dom';
-// import { lazy } from 'react';
-import Home from '../pages/Home/Home';
-import Movies from '../pages/Movies/Movies';
-import MovieDetails from '../pages/MovieDetails/MovieDetails';
-import Cast from './Cast/Cast';
-import Reviews from './Reviews/Reviews';
-// import Header from './Header/Header';
-import NotFound from 'pages/NotFound/NotFound';
-import Layout from './Layout/Layout';
+import style from './App.module.css';
+
+const Home = lazy(() => import('../pages/Home/Home'));
+const Movies = lazy(() => import('../pages/Movies/Movies'));
+const MovieDetails = lazy(() => import('../pages/MovieDetails/MovieDetails'));
+const Cast = lazy(() => import('./Cast/Cast'));
+const Reviews = lazy(() => import('./Reviews/Reviews'));
+const NotFound = lazy(() => import('pages/NotFound/NotFound'));
+const Layout = lazy(() => import('./Layout/Layout'));
 
 const App = () => {
   return (
-    <div>
-      {/* <Header /> */}
+    <div className={style.Container}>
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />

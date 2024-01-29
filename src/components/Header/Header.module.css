@@ -1,13 +1,18 @@
 .menu {
   list-style: none;
   display: flex;
+  border: 2px solid blue;
+  box-shadow: 10px 5px 5px black;
+  margin-bottom: 24px;
+  padding: 10px;
+  border-radius: 10px;
 }
 
 .link {
   padding: 10px 15px;
   text-decoration: none;
   color: #000;
-  font-size: 18px;
+  font-size: 28px;
   font-weight: bold;
 }
 

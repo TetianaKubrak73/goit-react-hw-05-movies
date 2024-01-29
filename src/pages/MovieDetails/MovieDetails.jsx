@@ -1,11 +1,11 @@
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { useParams, Link, Outlet, useLocation } from 'react-router-dom';
-import { fetchMovieDetails } from '../../services/MovieApi';
+import { getMovieDetails } from '../../services/MovieApi';
 import Loader from '../../components/Loader/Loader';
 
 const MovieDetails = () => {
   const { movieId } = useParams();
-  const [movieInfo, setMovieInfo] = useState(null);
+  const [movie, setMovie] = useState('');
   const [loading, setLoading] = useState(false);
   const location = useLocation();
 
@@ -13,9 +13,9 @@ const MovieDetails = () => {
     const fetchMovieDetailsFilms = () => {
       setLoading(true);
 
-      fetchMovieDetails(movieId)
+      getMovieDetails(movieId)
         .then(detailMovie => {
-          setMovieInfo(detailMovie);
+          setMovie(detailMovie);
         })
         .catch(error => {
           console.log(error);
@@ -28,28 +28,21 @@ const MovieDetails = () => {
     fetchMovieDetailsFilms();
   }, [movieId]);
 
-  if (!movieInfo) {
-    return;
+  if (!movie) {
+    return <Loader />;
   }
 
-  const {
-    title,
-    release_date,
-    popularity,
-    overview,
-    genres,
-    poster_path,
-    original_title,
-  } = movieInfo || {};
+  const { genres, poster_path, original_title, popularity, overview } =
+    movie || {};
 
   return (
     <>
-      <Link to={location.state?.from ?? '/'}>
+      <Link to={location.state?.from ?? '/movies'}>
         <button type="button">Go back</button>
       </Link>
       {loading && <Loader />}
 
-      {movieInfo && (
+      {movie && (
         <div>
           <img
             width="300px"
@@ -61,9 +54,7 @@ const MovieDetails = () => {
             alt={original_title}
           />
           <div>
-            <h1>
-              {title} ({release_date.slice(0, 4)})
-            </h1>
+            <h1>{original_title}</h1>
             <p>User score: {popularity}</p>
             <h2>Overview</h2>
             <p>{overview}</p>
@@ -81,14 +72,16 @@ const MovieDetails = () => {
         <h3>Additional information</h3>
         <ul>
           <li>
-            <Link to="cast">Cast</Link>
+            <Link to={`${location.pathname}/cast`}>Cast</Link>
           </li>
           <li>
-            <Link to="reviews">Reviews</Link>
+            <Link to={`${location.pathname}/reviews`}>Reviews</Link>
           </li>
         </ul>
         <hr />
-        <Outlet />
+        <Suspense fallback={<div>Loading subpage...</div>}>
+          <Outlet />
+        </Suspense>
       </div>
     </>
   );

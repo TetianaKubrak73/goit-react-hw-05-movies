@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { fetchReviews } from '../../services/MovieApi';
+import { getReviews } from '../../services/MovieApi';
 import Loader from 'components/Loader/Loader';
 
 const Reviews = () => {
@@ -9,10 +9,10 @@ const Reviews = () => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const fetchReviewsFilms = () => {
+    const fetchReviews = () => {
       setLoading(true);
 
-      fetchReviews(movieId)
+      getReviews(movieId)
         .then(reviews => {
           setReviews(reviews);
         })
@@ -24,7 +24,7 @@ const Reviews = () => {
         });
     };
 
-    fetchReviewsFilms();
+    fetchReviews();
   }, [movieId]);
 
   return (

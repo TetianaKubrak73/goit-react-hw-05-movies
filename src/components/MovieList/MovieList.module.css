@@ -1,0 +1,11 @@
+.movieList {
+  padding: 10px;
+}
+.item {
+  font-size: 20px;
+  margin: 10px 0;
+  border-radius: 10px;
+  box-shadow: 10px 5px 5px black;
+  border: 2px solid blue;
+  padding: 10px;
+}
