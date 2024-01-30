@@ -6,10 +6,10 @@ const MovieList = ({ movies }) => {
 
   return (
     <ul className={style.movieList}>
-      {movies.map(({ id, original_title }) => (
+      {movies.map(({ id, original_title, title }) => (
         <li className={style.item} key={id}>
           <Link state={{ from: location }} to={`/movies/${id}`}>
-            {original_title}
+            {original_title || title}
           </Link>
         </li>
       ))}

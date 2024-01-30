@@ -1,13 +1,20 @@
 import { Suspense, useEffect, useState } from 'react';
-import { useParams, Link, Outlet, useLocation } from 'react-router-dom';
+import {
+  useParams,
+  Link,
+  Outlet,
+  useLocation,
+  useNavigate,
+} from 'react-router-dom';
 import { getMovieDetails } from '../../services/MovieApi';
 import Loader from '../../components/Loader/Loader';
 
 const MovieDetails = () => {
   const { movieId } = useParams();
-  const [movie, setMovie] = useState('');
+  const [movie, setMovie] = useState(null);
   const [loading, setLoading] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchMovieDetailsFilms = () => {
@@ -38,7 +45,14 @@ const MovieDetails = () => {
   return (
     <>
       <Link to={location.state?.from ?? '/movies'}>
-        <button type="button">Go back</button>
+        <button
+          onClick={() => {
+            navigate(-1);
+          }}
+          type="button"
+        >
+          Go back
+        </button>
       </Link>
       {loading && <Loader />}
 
@@ -79,7 +93,7 @@ const MovieDetails = () => {
           </li>
         </ul>
         <hr />
-        <Suspense fallback={<div>Loading subpage...</div>}>
+        <Suspense fallback={<Loader />}>
           <Outlet />
         </Suspense>
       </div>
