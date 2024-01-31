@@ -1,4 +1,4 @@
-.moviecontainer {
+.containerInfo {
   display: flex;
   gap: 20px;
 }
@@ -25,12 +25,12 @@
   background-color: rgba(112, 155, 216, 0.375);
 }
 
-.addinfo {
+.listInfo {
   font-size: 18px;
   list-style: none;
   padding-left: 0px;
 }
 
-.infolink {
+.linkInfo {
   color: black;
 }

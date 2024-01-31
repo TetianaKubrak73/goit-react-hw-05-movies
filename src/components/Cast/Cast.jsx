@@ -8,6 +8,7 @@ const Cast = () => {
   const { movieId } = useParams();
   const [cast, setCast] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchCast = async () => {
@@ -28,7 +29,7 @@ const Cast = () => {
   return (
     <div>
       {loading && <Loader />}
-
+      {error && <p>{error}</p>}
       <ul>
         {cast &&
           cast.map(({ id, profile_path, original_name, name, character }) => (

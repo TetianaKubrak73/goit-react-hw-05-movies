@@ -53,7 +53,7 @@ const MovieDetails = () => {
       </button>
       {movie && (
         <>
-          <div className={style.moviecontainer}>
+          <div className={style.containerInfo}>
             <img
               width="300px"
               src={
@@ -75,17 +75,17 @@ const MovieDetails = () => {
               </p>
             </div>
           </div>
-          <div className={style.infocontainer}>
+          <div>
             <h3 className={style.title}>Additional information</h3>
-            <ul className={style.addinfo}>
+            <ul className={style.listInfo}>
               <li>
-                <Link className={style.infolink} to={'cast'} state={{ from }}>
+                <Link className={style.linkInfo} to={'cast'} state={{ from }}>
                   Cast
                 </Link>
               </li>
               <li>
                 <Link
-                  className={style.infolink}
+                  className={style.linkInfo}
                   to={'reviews'}
                   state={{ from }}
                 >
