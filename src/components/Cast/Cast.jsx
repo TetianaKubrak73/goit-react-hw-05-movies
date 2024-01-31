@@ -2,6 +2,7 @@ import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { getCast } from '../../services/MovieApi';
 import Loader from 'components/Loader/Loader';
+import style from './Cast.module.css';
 
 const Cast = () => {
   const { movieId } = useParams();
@@ -29,21 +30,23 @@ const Cast = () => {
       {loading && <Loader />}
 
       <ul>
-        {cast.map(({ id, profile_path, original_name, name, character }) => (
-          <li key={id}>
-            <img
-              width="200px"
-              src={
-                profile_path
-                  ? `https://image.tmdb.org/t/p/w500${profile_path}`
-                  : `https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg`
-              }
-              alt={original_name}
-            />
-            <p>{name}</p>
-            <p>Character: {character}</p>
-          </li>
-        ))}
+        {cast &&
+          cast.map(({ id, profile_path, original_name, name, character }) => (
+            <li className={style.item} key={id}>
+              <img
+                className={style.img}
+                width="200px"
+                src={
+                  profile_path
+                    ? `https://image.tmdb.org/t/p/w500${profile_path}`
+                    : `https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg`
+                }
+                alt={original_name}
+              />
+              <p className={style.text}>{name}</p>
+              <p className={style.text}>Character: {character}</p>
+            </li>
+          ))}
       </ul>
     </div>
   );

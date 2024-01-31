@@ -1,103 +1,105 @@
 import { Suspense, useEffect, useState } from 'react';
 import {
+  useLocation,
   useParams,
   Link,
   Outlet,
-  useLocation,
   useNavigate,
 } from 'react-router-dom';
 import { getMovieDetails } from '../../services/MovieApi';
 import Loader from '../../components/Loader/Loader';
+import style from './MovieDetails.module.css';
 
 const MovieDetails = () => {
-  const { movieId } = useParams();
-  const [movie, setMovie] = useState(null);
+  const [movie, setMovie] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  const { movieId } = useParams();
   const location = useLocation();
+
+  const from = location.state?.from || '/';
+
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchMovieDetailsFilms = () => {
-      setLoading(true);
+  // const BASE_URL = 'https://image.tmdb.org/t/p/w300';
 
-      getMovieDetails(movieId)
-        .then(detailMovie => {
-          setMovie(detailMovie);
-        })
-        .catch(error => {
-          console.log(error);
-        })
-        .finally(() => {
-          setLoading(false);
-        });
+  useEffect(() => {
+    const fetchMoviesDetails = async () => {
+      try {
+        setLoading(true);
+        const { data } = await getMovieDetails(movieId);
+        setMovie(data);
+      } catch (error) {
+        setError(error.message);
+      } finally {
+        setLoading(false);
+      }
     };
 
-    fetchMovieDetailsFilms();
+    fetchMoviesDetails();
   }, [movieId]);
 
-  if (!movie) {
-    return <Loader />;
-  }
+  const goBack = () => navigate(from);
 
-  const { genres, poster_path, original_title, popularity, overview } =
-    movie || {};
+  const { title, poster_path, overview, vote_average, genres } = movie || {};
 
   return (
-    <>
-      <Link to={location.state?.from ?? '/movies'}>
-        <button
-          onClick={() => {
-            navigate(-1);
-          }}
-          type="button"
-        >
-          Go back
-        </button>
-      </Link>
+    <div>
       {loading && <Loader />}
-
+      {error && <p>Error: {error}</p>}
+      <button className={style.btn} onClick={goBack} type="button">
+        Go back
+      </button>
       {movie && (
-        <div>
-          <img
-            width="300px"
-            src={
-              poster_path
-                ? `https://image.tmdb.org/t/p/w500${poster_path}`
-                : `https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg`
-            }
-            alt={original_title}
-          />
-          <div>
-            <h1>{original_title}</h1>
-            <p>User score: {popularity}</p>
-            <h2>Overview</h2>
-            <p>{overview}</p>
-            <h2>Genres</h2>
-            <ul>
-              {genres.map(genre => (
-                <li key={genre.id}>{genre.name}</li>
-              ))}
-            </ul>
+        <>
+          <div className={style.moviecontainer}>
+            <img
+              width="300px"
+              src={
+                poster_path
+                  ? `https://image.tmdb.org/t/p/w500${poster_path}`
+                  : `https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg`
+              }
+              alt={title}
+            />
+            <div>
+              <h1>{title}</h1>
+              <h2 className={style.title}>User Score:</h2>
+              <p>{Math.round(vote_average * 10)}%</p>
+              <h2 className={style.title}>Overview: </h2>
+              <p>{overview}</p>
+              <h2 className={style.title}>Genres:</h2>
+              <p className={style.genres}>
+                {genres && genres.map(i => i.name).join(', ')}
+              </p>
+            </div>
           </div>
-        </div>
+          <div className={style.infocontainer}>
+            <h3 className={style.title}>Additional information</h3>
+            <ul className={style.addinfo}>
+              <li>
+                <Link className={style.infolink} to={'cast'} state={{ from }}>
+                  Cast
+                </Link>
+              </li>
+              <li>
+                <Link
+                  className={style.infolink}
+                  to={'reviews'}
+                  state={{ from }}
+                >
+                  Reviews
+                </Link>
+              </li>
+            </ul>
+            <Suspense fallback={<Loader />}>
+              <Outlet />
+            </Suspense>
+          </div>
+        </>
       )}
-      <hr />
-      <div>
-        <h3>Additional information</h3>
-        <ul>
-          <li>
-            <Link to={`${location.pathname}/cast`}>Cast</Link>
-          </li>
-          <li>
-            <Link to={`${location.pathname}/reviews`}>Reviews</Link>
-          </li>
-        </ul>
-        <hr />
-        <Suspense fallback={<Loader />}>
-          <Outlet />
-        </Suspense>
-      </div>
-    </>
+    </div>
   );
 };
 
