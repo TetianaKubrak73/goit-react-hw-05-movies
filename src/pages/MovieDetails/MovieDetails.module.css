@@ -8,7 +8,7 @@
 }
 
 .btn {
-  margin-left: 10px;
+  margin: 0 0 20px 10px;
   font-weight: 500;
   font-size: 18px;
   line-height: 27px;
@@ -20,7 +20,7 @@
   border-radius: 10px;
   box-shadow: 10px 5px 5px black;
 }
-.buttonForm:hover,
+.btn:hover,
 :focus {
   background-color: rgba(112, 155, 216, 0.375);
 }
@@ -31,6 +31,16 @@
   padding-left: 0px;
 }
 
-.linkInfo {
+.link {
   color: black;
+}
+.link:global(.active) {
+  color: blue;
+}
+.text {
+  font-size: 16px;
+}
+.imgTitle {
+  min-width: 288px;
+  border-radius: 15px;
 }

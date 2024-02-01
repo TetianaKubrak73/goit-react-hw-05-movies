@@ -2,7 +2,7 @@ import { Suspense, useEffect, useState } from 'react';
 import {
   useLocation,
   useParams,
-  Link,
+  NavLink,
   Outlet,
   useNavigate,
 } from 'react-router-dom';
@@ -18,18 +18,16 @@ const MovieDetails = () => {
   const { movieId } = useParams();
   const location = useLocation();
 
-  const from = location.state?.from || '/';
+  const from = location.state?.from ?? '/movies';
 
   const navigate = useNavigate();
-
-  // const BASE_URL = 'https://image.tmdb.org/t/p/w300';
 
   useEffect(() => {
     const fetchMoviesDetails = async () => {
       try {
         setLoading(true);
-        const { data } = await getMovieDetails(movieId);
-        setMovie(data);
+        const movie = await getMovieDetails(movieId);
+        setMovie(movie);
       } catch (error) {
         setError(error.message);
       } finally {
@@ -55,6 +53,7 @@ const MovieDetails = () => {
         <>
           <div className={style.containerInfo}>
             <img
+              className={style.imgTitle}
               width="300px"
               src={
                 poster_path
@@ -68,7 +67,7 @@ const MovieDetails = () => {
               <h2 className={style.title}>User Score:</h2>
               <p>{Math.round(vote_average * 10)}%</p>
               <h2 className={style.title}>Overview: </h2>
-              <p>{overview}</p>
+              <p className={style.text}>{overview}</p>
               <h2 className={style.title}>Genres:</h2>
               <p className={style.genres}>
                 {genres && genres.map(i => i.name).join(', ')}
@@ -79,18 +78,14 @@ const MovieDetails = () => {
             <h3 className={style.title}>Additional information</h3>
             <ul className={style.listInfo}>
               <li>
-                <Link className={style.linkInfo} to={'cast'} state={{ from }}>
+                <NavLink className={style.link} to={'cast'} state={{ from }}>
                   Cast
-                </Link>
+                </NavLink>
               </li>
               <li>
-                <Link
-                  className={style.linkInfo}
-                  to={'reviews'}
-                  state={{ from }}
-                >
+                <NavLink className={style.link} to={'reviews'} state={{ from }}>
                   Reviews
-                </Link>
+                </NavLink>
               </li>
             </ul>
             <Suspense fallback={<Loader />}>

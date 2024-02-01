@@ -29,11 +29,11 @@ const Cast = () => {
   return (
     <div>
       {loading && <Loader />}
-      {error && <p>{error}</p>}
-      <ul>
+      {error && <p>{error.message}</p>}
+      <ul className={style.list}>
         {cast &&
-          cast.map(({ id, profile_path, original_name, name, character }) => (
-            <li className={style.item} key={id}>
+          cast.map(({ id, profile_path, original_name, character }) => (
+            <li className={style.item} key={`${id}-${character}`}>
               <img
                 className={style.img}
                 width="200px"
@@ -44,7 +44,7 @@ const Cast = () => {
                 }
                 alt={original_name}
               />
-              <p className={style.text}>{name}</p>
+              <p className={style.text}>{original_name}</p>
               <p className={style.text}>Character: {character}</p>
             </li>
           ))}
