@@ -1,7 +1,7 @@
 .menu {
   list-style: none;
   display: flex;
-  border: 2px solid blue;
+  border: 2px solid gray;
   box-shadow: 10px 5px 5px black;
   margin-bottom: 24px;
   padding: 10px;
